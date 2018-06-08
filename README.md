@@ -1,12 +1,24 @@
 # customizable_dial_widget
 
-The goal of this project is to provide a C++/Qt analog dial widget that can be easily incorporated into your project.
+The goal of this project is to provide a C++ / Qt dial widget that can easily be incorporated into your project.  
 
-The base class, DialWidget, contains the core functionality required to display a simple dial.  Additional classes expand upon the DialWidget to demonstrate the ability to easily generate a range of custom controls.
+Launching the provided demo brings up a simple desktop application with several examples.
+
+The base class, DialWidget, contains the core functionality required to display a simple dial.  Additional classes exist to demonstrate the ability to generate a range of custom controls by expanding upon the DialWidget.
 
 ## Prerequisites
 - GIT
 - Qt Creator
+
+## Build & Run
+
+To build the project:
+
+* Open the project (.pro) file in Qt Creator
+
+* Run qmake
+
+* Build and Run by pressing 'F5', using the 'play' button, or navigating to Build->Run in the menu.
 
 ## Tests
 
