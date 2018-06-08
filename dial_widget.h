@@ -26,4 +26,6 @@ private:
   void drawTickMarks(QPainter *painter);
   void drawTextLabels(QPainter *painter);
   void drawIndicator(QPainter *painter);
+
+  void calculatePositionOnCircle(int &x, int &y);
 };

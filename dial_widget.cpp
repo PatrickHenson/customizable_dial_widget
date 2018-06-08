@@ -90,3 +90,14 @@ void DialWidget::drawIndicator(QPainter *painter)
 	painter->setPen(QPen(INDICATOR_COLOR, 2));
 	painter->drawLine(0, 0, 0, -INDICATOR_LENGTH);
 }
+
+void DialWidget::calculatePositionOnCircle(int &x, int &y)
+{
+  static const int INTERIOR_PADDING = 10;
+  static const int INTERIOR_RADIUS =  SIDE_LENGTH - INTERIOR_PADDING;
+
+  static const double ANGLE = 2 * M_PI / NUM_MAJOR_TICKS;
+
+  double x = INTERIOR_RADIUS * cos(ANGLE);
+  double y = INTERIOR_RADIUS * sin(ANGLE);
+}
