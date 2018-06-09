@@ -88,15 +88,42 @@ void DialWidget::drawTextLabels(QPainter *painter)
   static const int INCREMENT = (MAX_VALUE - MIN_VALUE) / NUM_MAJOR_TICKS;
   static const int FONT_SIZE = 10;
 
-  painter->setFont(QFont("Helvetica", FONT_SIZE));
+  QFont font = QFont("Helvetica", FONT_SIZE);
+  QFontMetrics fontMetrics(font);
+
+  painter->setFont(font);
   painter->setPen(QPen(LABEL_COLOR, 1));
 
   QPointF position;
 
   for (int i = 0; i < NUM_MAJOR_TICKS; ++i)
   {
-    calculatePositionOnCircle(i, position);
-    painter->drawText(position.x(), position.y(), QString::number(INCREMENT * i));
+    QString label = QString::number(INCREMENT * i);
+
+    // Calculate the x,y coordinates on interior circumference of the dial
+    calculatePointOnCircumference(i, position);
+
+    // Offset the position of the label, shifting it based upon the font size
+    // and placement on the dial
+    double x = position.x();
+    double y = position.y() + FONT_SIZE / 2;
+
+    if (i == 0)
+    {
+      x -= fontMetrics.width(label) / 2;
+      y += FONT_SIZE / 2;
+    }
+    else if (i == NUM_MAJOR_TICKS / 2)
+    {
+      x -= fontMetrics.width(label) / 2;
+      y -= FONT_SIZE / 2;
+    }
+    else if (i < NUM_MAJOR_TICKS / 2)
+    {
+      x -= fontMetrics.width(label);
+    }
+
+    painter->drawText(x, y, label);
   }
 }
 
@@ -110,9 +137,9 @@ void DialWidget::drawIndicator(QPainter *painter)
   painter->restore();
 }
 
-void DialWidget::calculatePositionOnCircle(int count, QPointF& position)
+void DialWidget::calculatePointOnCircumference(int count, QPointF& position)
 {
-  static const int INTERIOR_PADDING = 15;
+  static const int INTERIOR_PADDING = 25;
   static const int INTERIOR_RADIUS  =  (SIDE_LENGTH - INTERIOR_PADDING) / 2;
 
   static const double ANGLE  = 2 * M_PI / NUM_MAJOR_TICKS;
