@@ -1,14 +1,12 @@
 # customizable_dial_widget
 
-The goal of this project is to provide a C++ / Qt dial widget that can easily be incorporated into your project.  
+The goal of this project is to provide a C++ / Qt dial widget that can easily be incorporated into any project, open source or closed source.  
+
+The DialWidget class contains the core functionality required to display a simple dial.  Create customized dials by inheriting the DialWidget, setting the values, and optionally overriding how it is rendered.
 
 Launching the provided demo brings up a simple desktop application with several examples.
 
-The base class, DialWidget, contains the core functionality required to display a simple dial.  Additional classes exist to demonstrate the ability to generate a range of custom controls by expanding upon the DialWidget.
-
-![base dial](/demo_images/base_dial.png)
-
-![base dial](https://github.com/patrickhenson/customizable_dial_widget/tree/master/demo_images/base_dial.png)
+![base dial](/demo_images/base_dial.png "Base DialWidget")
 
 ## Prerequisites
 - GIT
