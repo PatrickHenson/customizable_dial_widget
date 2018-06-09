@@ -6,7 +6,7 @@ Launching the provided demo brings up a simple desktop application with several 
 
 The base class, DialWidget, contains the core functionality required to display a simple dial.  Additional classes exist to demonstrate the ability to generate a range of custom controls by expanding upon the DialWidget.
 
-![alt text](https://github.com/patrickhenson/customizable_dial_widget/demo_images/base_dial.png)
+![base dial](https://github.com/patrickhenson/customizable_dial_widget/tree/master/demo_images/base_dial.png)
 
 ## Prerequisites
 - GIT
