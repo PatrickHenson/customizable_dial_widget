@@ -1,14 +1,16 @@
 #include "main_window.h"
 
 #include <QVBoxLayout>
+#include <QDoubleSpinBox>
 #include "dial_widget.h"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent)
 {
-  static const int DEMO_WINDOW_SIZE = 210;
+  static const int DEMO_WINDOW_X = 210;
+  static const int DEMO_WINDOW_Y = 250;
 
-  setFixedSize(DEMO_WINDOW_SIZE, DEMO_WINDOW_SIZE);
+  setFixedSize(DEMO_WINDOW_X, DEMO_WINDOW_Y);
 
   QWidget *widget = new QWidget();
   setCentralWidget(widget);
@@ -18,6 +20,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
   DialWidget *dial = new DialWidget();
   layout->addWidget(dial);
+
+  QDoubleSpinBox *dialInput = new QDoubleSpinBox();
+  dialInput->setRange(dial->minValue(), dial->maxValue());
+  dialInput->setSingleStep(10);
+  layout->addWidget(dialInput);
+
+  QObject::connect(dialInput, SIGNAL(valueChanged(double)), dial, SLOT(setValue(double)), Qt::UniqueConnection);
 }
 
 MainWindow::~MainWindow()

@@ -27,7 +27,18 @@ void DialWidget::setValue(double value)
   if ((value >= MIN_VALUE) && (value <= MAX_VALUE))
   {
     m_value = value;
+    update();
   }
+}
+
+int DialWidget::minValue()
+{
+  return MIN_VALUE;
+}
+
+int DialWidget::maxValue()
+{
+  return MAX_VALUE;
 }
 
 void DialWidget::paintEvent(QPaintEvent *)

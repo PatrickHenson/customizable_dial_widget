@@ -5,10 +5,16 @@
 #include <QPointF>
 
 class DialWidget : public QWidget {
+  Q_OBJECT
+
 public:
 
   explicit DialWidget(QWidget *parent = 0);
 
+  int minValue();
+  int maxValue();
+
+public slots:
   void setValue(double value);
 
 protected:
