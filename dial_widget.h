@@ -9,6 +9,8 @@ public:
 
   explicit DialWidget(QWidget *parent = 0);
 
+  void setValue(double value);
+
 protected:
 
   void paintEvent(QPaintEvent *);
@@ -30,6 +32,8 @@ private:
   const QColor MINOR_TICK_COLOR;
   const QColor LABEL_COLOR;
   const QColor INDICATOR_COLOR;
+
+  double m_value; // The value set for display on the dail.
 
   // Calculate n evenly distributed points along the inside circumference
   // of the dial.  n = NUM_MAJOR_TICKS

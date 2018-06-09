@@ -22,6 +22,14 @@ DialWidget::DialWidget(QWidget *parent) :
   setFixedSize(SIDE_LENGTH, SIDE_LENGTH);
 }
 
+void DialWidget::setValue(double value)
+{
+  if ((value >= MIN_VALUE) && (value <= MAX_VALUE))
+  {
+    m_value = value;
+  }
+}
+
 void DialWidget::paintEvent(QPaintEvent *)
 {
   QPainter *painter = new QPainter(this);
@@ -132,8 +140,13 @@ void DialWidget::drawIndicator(QPainter *painter)
   static const int INDICATOR_LENGTH = SIDE_LENGTH / 2 - 10;
 
   painter->save();
+
+  double stepSize = DEGREES_IN_CIRCLE / (MAX_VALUE - MIN_VALUE);
+  painter->rotate(m_value * stepSize);
+
   painter->setPen(QPen(INDICATOR_COLOR, 2));
   painter->drawLine(0, 0, 0, -INDICATOR_LENGTH);
+
   painter->restore();
 }
 
