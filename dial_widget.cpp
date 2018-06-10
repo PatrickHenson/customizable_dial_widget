@@ -8,23 +8,55 @@ const double DEGREES_IN_CIRCLE = 360.0;
 
 DialWidget::DialWidget(QWidget *parent) :
   QWidget(parent),
-  SIDE_LENGTH(200.0),
-  MIN_VALUE(0),
-  MAX_VALUE(100),
-  NUM_MAJOR_TICKS((MAX_VALUE - MIN_VALUE) / 10),
-  NUM_MINOR_TICKS(NUM_MAJOR_TICKS * 5),
-  FACE_COLOR(Qt::black),
-  MAJOR_TICK_COLOR(Qt::white),
-  MINOR_TICK_COLOR(Qt::white),
-  LABEL_COLOR(Qt::white),
-  INDICATOR_COLOR(Qt::red)
+  m_SIDE_LENGTH(200.0),
+  m_MIN_VALUE(0),
+  m_MAX_VALUE(100),
+  m_MINOR_TICK_COUNT(50),
+  m_MAJOR_TICK_COUNT(10),
+  m_MINOR_TICK_LENGTH(2),
+  m_MAJOR_TICK_LENGTH(8),
+  m_DIAL_COLOR(Qt::black),
+  m_MINOR_TICK_COLOR(Qt::white),
+  m_MAJOR_TICK_COLOR(Qt::white),
+  m_LABEL_COLOR(Qt::white),
+  m_INDICATOR_COLOR(Qt::red)
 {
-  setFixedSize(SIDE_LENGTH, SIDE_LENGTH);
+  setFixedSize(m_SIDE_LENGTH, m_SIDE_LENGTH);
+}
+
+DialWidget::DialWidget(int      sideLength,
+                       int      minValue,
+                       int      maxValue,
+                       int      minorTickCount,
+                       int      majorTickCount,
+                       int      minorTickLength,
+                       int      majorTickLength,
+                       QColor   dialColor,
+                       QColor   minorTickColor,
+                       QColor   majorTickColor,
+                       QColor   labelColor,
+                       QColor   indicatorColor,
+                       QWidget *parent) :
+  QWidget(parent),
+  m_SIDE_LENGTH(sideLength),
+  m_MIN_VALUE(minValue),
+  m_MAX_VALUE(maxValue),
+  m_MINOR_TICK_COUNT(minorTickCount),
+  m_MAJOR_TICK_COUNT(majorTickCount),
+  m_MINOR_TICK_LENGTH(minorTickLength),
+  m_MAJOR_TICK_LENGTH(majorTickLength),
+  m_DIAL_COLOR(dialColor),
+  m_MINOR_TICK_COLOR(minorTickColor),
+  m_MAJOR_TICK_COLOR(majorTickColor),
+  m_LABEL_COLOR(labelColor),
+  m_INDICATOR_COLOR(indicatorColor)
+{
+  setFixedSize(m_SIDE_LENGTH, m_SIDE_LENGTH);
 }
 
 void DialWidget::setValue(double value)
 {
-  if ((value >= MIN_VALUE) && (value <= MAX_VALUE))
+  if ((value >= m_MIN_VALUE) && (value <= m_MAX_VALUE))
   {
     m_value = value;
     update();
@@ -33,12 +65,12 @@ void DialWidget::setValue(double value)
 
 int DialWidget::minValue()
 {
-  return MIN_VALUE;
+  return m_MIN_VALUE;
 }
 
 int DialWidget::maxValue()
 {
-  return MAX_VALUE;
+  return m_MAX_VALUE;
 }
 
 void DialWidget::paintEvent(QPaintEvent *)
@@ -48,7 +80,7 @@ void DialWidget::paintEvent(QPaintEvent *)
   painter->setRenderHints(QPainter::Antialiasing, true);
 
   // Set the origin to the center of the dial widget
-  painter->translate(SIDE_LENGTH / 2, SIDE_LENGTH / 2);
+  painter->translate(m_SIDE_LENGTH / 2, m_SIDE_LENGTH / 2);
 
   drawFace(painter);
   drawTickMarks(painter);
@@ -60,43 +92,40 @@ void DialWidget::paintEvent(QPaintEvent *)
 
 void DialWidget::drawFace(QPainter *painter)
 {
-  QBrush brush(FACE_COLOR);
+  QBrush brush(m_DIAL_COLOR);
 
   painter->setBrush(brush);
   painter->setPen(QPen(Qt::gray, 2));
 
-  // Translate leftwards and upwards 1/2 the side length to center the ellipse
-  // on the origin.
-  painter->drawEllipse(-SIDE_LENGTH / 2,
-                       -SIDE_LENGTH / 2,
-                       SIDE_LENGTH,
-                       SIDE_LENGTH);
+  // Translate the ellipse to center it on the origin.
+  painter->drawEllipse(-m_SIDE_LENGTH / 2,
+                       -m_SIDE_LENGTH / 2,
+                       m_SIDE_LENGTH,
+                       m_SIDE_LENGTH);
 }
 
 void DialWidget::drawTickMarks(QPainter *painter)
 {
-  // Define the size of major and minor tick marks in pixels.
-  static const int MAJOR_TICK_SIZE = 8;
-  static const int MINOR_TICK_SIZE = 2;
-
   painter->save();
 
-  // Draw major tick marks on the dial.
-  painter->setPen(QPen(MAJOR_TICK_COLOR, 2));
+  // Draw minor tick marks on the dial.
+  painter->setPen(QPen(m_MINOR_TICK_COLOR, 2));
 
-  for (int i = 0; i < NUM_MAJOR_TICKS; ++i)
+  for (int i = 0; i < m_MINOR_TICK_COUNT; ++i)
   {
-    painter->drawLine(0, SIDE_LENGTH / 2, 0, (SIDE_LENGTH / 2 - MAJOR_TICK_SIZE));
-    painter->rotate(DEGREES_IN_CIRCLE / NUM_MAJOR_TICKS);
+    painter->drawLine(0, m_SIDE_LENGTH / 2, 0,
+                      (m_SIDE_LENGTH / 2 - m_MINOR_TICK_LENGTH));
+    painter->rotate(DEGREES_IN_CIRCLE / m_MINOR_TICK_COUNT);
   }
 
-  // Draw minor tick marks on the dial.
-  painter->setPen(QPen(MINOR_TICK_COLOR, 2));
+  // Draw major tick marks on the dial.
+  painter->setPen(QPen(m_MAJOR_TICK_COLOR, 2));
 
-  for (int i = 0; i < NUM_MINOR_TICKS; ++i)
+  for (int i = 0; i < m_MAJOR_TICK_COUNT; ++i)
   {
-    painter->drawLine(0, SIDE_LENGTH / 2, 0, (SIDE_LENGTH / 2 - MINOR_TICK_SIZE));
-    painter->rotate(DEGREES_IN_CIRCLE / NUM_MINOR_TICKS);
+    painter->drawLine(0, m_SIDE_LENGTH / 2, 0,
+                      (m_SIDE_LENGTH / 2 - m_MAJOR_TICK_LENGTH));
+    painter->rotate(DEGREES_IN_CIRCLE / m_MAJOR_TICK_COUNT);
   }
 
   painter->restore();
@@ -104,18 +133,18 @@ void DialWidget::drawTickMarks(QPainter *painter)
 
 void DialWidget::drawTextLabels(QPainter *painter)
 {
-  static const int INCREMENT = (MAX_VALUE - MIN_VALUE) / NUM_MAJOR_TICKS;
+  static const int INCREMENT = (m_MAX_VALUE - m_MIN_VALUE) / m_MAJOR_TICK_COUNT;
   static const int FONT_SIZE = 10;
 
   QFont font = QFont("Helvetica", FONT_SIZE);
   QFontMetrics fontMetrics(font);
 
   painter->setFont(font);
-  painter->setPen(QPen(LABEL_COLOR, 1));
+  painter->setPen(QPen(m_LABEL_COLOR, 1));
 
   QPointF position;
 
-  for (int i = 0; i < NUM_MAJOR_TICKS; ++i)
+  for (int i = 0; i < m_MAJOR_TICK_COUNT; ++i)
   {
     QString label = QString::number(INCREMENT * i);
 
@@ -132,12 +161,12 @@ void DialWidget::drawTextLabels(QPainter *painter)
       x -= fontMetrics.width(label) / 2;
       y += FONT_SIZE / 2;
     }
-    else if (i == NUM_MAJOR_TICKS / 2)
+    else if (i == m_MAJOR_TICK_COUNT / 2)
     {
       x -= fontMetrics.width(label) / 2;
       y -= FONT_SIZE / 2;
     }
-    else if (i < NUM_MAJOR_TICKS / 2)
+    else if (i < m_MAJOR_TICK_COUNT / 2)
     {
       x -= fontMetrics.width(label);
     }
@@ -148,14 +177,14 @@ void DialWidget::drawTextLabels(QPainter *painter)
 
 void DialWidget::drawIndicator(QPainter *painter)
 {
-  static const int INDICATOR_LENGTH = SIDE_LENGTH / 2 - 10;
+  static const int INDICATOR_LENGTH = m_SIDE_LENGTH / 2 - 10;
 
   painter->save();
 
-  double stepSize = DEGREES_IN_CIRCLE / (MAX_VALUE - MIN_VALUE);
+  double stepSize = DEGREES_IN_CIRCLE / (m_MAX_VALUE - m_MIN_VALUE);
   painter->rotate(m_value * stepSize);
 
-  painter->setPen(QPen(INDICATOR_COLOR, 2));
+  painter->setPen(QPen(m_INDICATOR_COLOR, 2));
   painter->drawLine(0, 0, 0, -INDICATOR_LENGTH);
 
   painter->restore();
@@ -164,9 +193,9 @@ void DialWidget::drawIndicator(QPainter *painter)
 void DialWidget::calculatePointOnCircumference(int count, QPointF& position)
 {
   static const int INTERIOR_PADDING = 25;
-  static const int INTERIOR_RADIUS  =  (SIDE_LENGTH - INTERIOR_PADDING) / 2;
+  static const int INTERIOR_RADIUS  =  (m_SIDE_LENGTH - INTERIOR_PADDING) / 2;
 
-  static const double ANGLE  = 2 * M_PI / NUM_MAJOR_TICKS;
+  static const double ANGLE  = 2 * M_PI / m_MAJOR_TICK_COUNT;
   static const double OFFSET = M_PI / 2;
 
   position.setX(INTERIOR_RADIUS * cos(ANGLE * count - OFFSET));

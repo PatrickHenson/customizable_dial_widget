@@ -26,7 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
   dialInput->setSingleStep(10);
   layout->addWidget(dialInput);
 
-  QObject::connect(dialInput, SIGNAL(valueChanged(double)), dial, SLOT(setValue(double)), Qt::UniqueConnection);
+  QObject::connect(dialInput, SIGNAL(valueChanged(double)), dial,
+                   SLOT(setValue(double)), Qt::UniqueConnection);
 }
 
 MainWindow::~MainWindow()
