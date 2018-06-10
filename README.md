@@ -6,7 +6,7 @@ The DialWidget class contains the core functionality required to display a simpl
 
 Launching the provided demo brings up a simple desktop application with several example dials.
 
-![base dial](/demo_images/base_dial.png "Base DialWidget")
+![base dial](/demo_images/dials.png "Base DialWidget")
 
 ## Prerequisites
 - GIT
