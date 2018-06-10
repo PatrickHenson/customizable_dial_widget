@@ -19,8 +19,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
   main.cpp \
   main_window.cpp \
-  dial_widget.cpp
+  dial_widget.cpp \
+    square_dial.cpp \
+    demo_control.cpp
 
 HEADERS += \
   main_window.h \
-  dial_widget.h
+  dial_widget.h \
+    square_dial.h \
+    demo_control.h

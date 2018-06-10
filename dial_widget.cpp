@@ -4,6 +4,7 @@
 
 namespace {
 const double DEGREES_IN_CIRCLE = 360.0;
+const int    PEN_SIZE          = 2;
 }
 
 DialWidget::DialWidget(QWidget *parent) :
@@ -22,6 +23,7 @@ DialWidget::DialWidget(QWidget *parent) :
   m_INDICATOR_COLOR(Qt::red)
 {
   setFixedSize(m_SIDE_LENGTH, m_SIDE_LENGTH);
+  m_value = m_MIN_VALUE;
 }
 
 DialWidget::DialWidget(int      sideLength,
@@ -52,6 +54,7 @@ DialWidget::DialWidget(int      sideLength,
   m_INDICATOR_COLOR(indicatorColor)
 {
   setFixedSize(m_SIDE_LENGTH, m_SIDE_LENGTH);
+  m_value = m_MIN_VALUE;
 }
 
 void DialWidget::setValue(double value)
@@ -95,7 +98,7 @@ void DialWidget::drawFace(QPainter *painter)
   QBrush brush(m_DIAL_COLOR);
 
   painter->setBrush(brush);
-  painter->setPen(QPen(Qt::gray, 2));
+  painter->setPen(QPen(Qt::gray, PEN_SIZE));
 
   // Translate the ellipse to center it on the origin.
   painter->drawEllipse(-m_SIDE_LENGTH / 2,
@@ -109,22 +112,26 @@ void DialWidget::drawTickMarks(QPainter *painter)
   painter->save();
 
   // Draw minor tick marks on the dial.
-  painter->setPen(QPen(m_MINOR_TICK_COLOR, 2));
+  painter->setPen(QPen(m_MINOR_TICK_COLOR, PEN_SIZE));
+
+  const int MINOR_TICK_START = m_SIDE_LENGTH / 2 - PEN_SIZE;
+  const int MINOR_TICK_STOP  = MINOR_TICK_START - m_MINOR_TICK_LENGTH;
 
   for (int i = 0; i < m_MINOR_TICK_COUNT; ++i)
   {
-    painter->drawLine(0, m_SIDE_LENGTH / 2, 0,
-                      (m_SIDE_LENGTH / 2 - m_MINOR_TICK_LENGTH));
+    painter->drawLine(0, MINOR_TICK_START, 0, MINOR_TICK_STOP);
     painter->rotate(DEGREES_IN_CIRCLE / m_MINOR_TICK_COUNT);
   }
 
   // Draw major tick marks on the dial.
-  painter->setPen(QPen(m_MAJOR_TICK_COLOR, 2));
+  painter->setPen(QPen(m_MAJOR_TICK_COLOR, PEN_SIZE));
+
+  const int MAJOR_TICK_START = m_SIDE_LENGTH / 2 - PEN_SIZE;
+  const int MAJOR_TICK_STOP  = MAJOR_TICK_START - m_MAJOR_TICK_LENGTH;
 
   for (int i = 0; i < m_MAJOR_TICK_COUNT; ++i)
   {
-    painter->drawLine(0, m_SIDE_LENGTH / 2, 0,
-                      (m_SIDE_LENGTH / 2 - m_MAJOR_TICK_LENGTH));
+    painter->drawLine(0, MAJOR_TICK_START, 0, MAJOR_TICK_STOP);
     painter->rotate(DEGREES_IN_CIRCLE / m_MAJOR_TICK_COUNT);
   }
 
@@ -181,10 +188,15 @@ void DialWidget::drawIndicator(QPainter *painter)
 
   painter->save();
 
+  painter->setPen(QPen(m_INDICATOR_COLOR, 2));
+  painter->setBrush(m_INDICATOR_COLOR);
+
+  // Draw a dot on the origin at the base of the indicator.
+  painter->drawEllipse(-PEN_SIZE, -PEN_SIZE, PEN_SIZE * 2, PEN_SIZE * 2);
+
+  // Draw the indicator rotated to point at the current value.
   double stepSize = DEGREES_IN_CIRCLE / (m_MAX_VALUE - m_MIN_VALUE);
   painter->rotate(m_value * stepSize);
-
-  painter->setPen(QPen(m_INDICATOR_COLOR, 2));
   painter->drawLine(0, 0, 0, -INDICATOR_LENGTH);
 
   painter->restore();
