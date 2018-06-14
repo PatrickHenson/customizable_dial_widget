@@ -2,9 +2,33 @@
 
 The goal of this project is to provide a C++ / Qt dial widget that can easily be incorporated into any project.  
 
-The DialWidget class contains the core functionality required to display a simple dial.  Create customized dials by inheriting the DialWidget, setting the values, and optionally overriding how it is rendered.
-
 Launching the provided demo brings up a simple desktop application with several example dials.
+
+The DialWidget class contains the core functionality and uses the following parameters to generate a simple, round, dial.
+
+Parameters:
+
+```
+int sideLength         // The dial is centered inside a QWidget with
+                       // equilateral side lengths.
+int minValue           // Minimum value displayed on the dial.
+int maxValue           // Maximum value displayed on the dial.
+int minorTickCount     // Number of short tick marks rendered.
+int majorTickCount     // Number of long tick marks rendered.
+int minorTickLength    // Length of the short tick marks in pixels.
+int majorTickLength    // Length of the long tick marks in pixels.
+QColor dialColor       // The color of the dial's face.
+QColor minorTickColor  // Color of minor tick marks.
+QColor majorTickColor  // Color of major tick marks.
+QColor labelColor      // Color of the font used for the labels.
+QColor indicatorColor  // Color of the indicator needle.
+```
+
+In addition, I have provided several classes demonstrating how the DialWidget can be further customized.  
+
+```
+SquareDial  // Generate the dial centered in a square bezel.
+```
 
 ![base dial](/demo_images/dials.png "Base DialWidget")
 
