@@ -9,8 +9,7 @@ The DialWidget class contains the core functionality and uses the following para
 Parameters:
 
 ```
-int sideLength         // The dial is centered inside a QWidget with
-                       // equilateral side lengths.
+int sideLength         // The dial is centered inside a QWidget with equilateral side lengths.
 int minValue           // Minimum value displayed on the dial.
 int maxValue           // Maximum value displayed on the dial.
 int minorTickCount     // Number of short tick marks rendered.
