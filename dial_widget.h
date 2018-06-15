@@ -16,25 +16,27 @@ public:
   explicit DialWidget(QWidget *parent = 0);
 
   // Constructor that allows for custom configuration of the DialWidget.
-  DialWidget(int      sideLength,
-             int      minValue,
-             int      maxValue,
-             int      minorTickCount,
-             int      majorTickCount,
-             int      minorTickLength,
-             int      majorTickLength,
-             QColor   dialColor,
-             QColor   minorTickColor,
-             QColor   majorTickColor,
-             QColor   labelColor,
-             QColor   indicatorColor,
+  DialWidget(QString  title,
+             QString  units,
+             int      side_length,
+             int      min_value,
+             int      max_value,
+             int      minor_tick_count,
+             int      major_tick_count,
+             int      minor_tick_length,
+             int      major_tick_length,
+             QColor   dial_color,
+             QColor   minor_tick_color,
+             QColor   major_tick_color,
+             QColor   label_color,
+             QColor   indicator_color,
              QWidget *parent = 0);
 
   // Return the minimum value displayed on the dial.
-  int minValue();
+  int min_value();
 
   // Return the maximum value displayed on the dial.
-  int maxValue();
+  int max_value();
 
 public slots:
 
@@ -53,10 +55,13 @@ protected:
   // dial.
   void drawTickMarks(QPainter *painter);
 
+  // Draw the title and units on the face of the dial.
+  void drawTitleAndUnitLabels(QPainter *painter);
+
   // Draw the labels on the dial, adjusted for font size and character count.
   // Labels start at 0 and are placed at each major tick mark.
   // Override to use custom strings or placement.
-  void drawTextLabels(QPainter *painter);
+  void drawValueLabels(QPainter *painter);
 
   // Draw the indicator needle that points to the current value.
   void drawIndicator(QPainter *painter);
@@ -65,6 +70,9 @@ private:
 
   // The following constant member variables are set during construction to
   // define how the dial is generated during the paint event.
+  const QString m_TITLE;           // String title displayed on the dial face.
+  const QString m_UNITS;           // Units for the values displayed on the
+                                   // dail.
   const int m_SIDE_LENGTH;         // The dial is centered inside a QWidget with
                                    // equilateral side lengths.
   const int m_MIN_VALUE;           // Minimum value displayed on the dial.

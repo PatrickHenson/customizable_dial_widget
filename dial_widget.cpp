@@ -5,10 +5,13 @@
 namespace {
 const double DEGREES_IN_CIRCLE = 360.0;
 const int    PEN_SIZE          = 2;
+static const int FONT_SIZE     = 10;
 }
 
 DialWidget::DialWidget(QWidget *parent) :
   QWidget(parent),
+  m_TITLE(QString()),
+  m_UNITS(QString()),
   m_SIDE_LENGTH(200.0),
   m_MIN_VALUE(0),
   m_MAX_VALUE(100),
@@ -26,32 +29,36 @@ DialWidget::DialWidget(QWidget *parent) :
   m_value = m_MIN_VALUE;
 }
 
-DialWidget::DialWidget(int      sideLength,
-                       int      minValue,
-                       int      maxValue,
-                       int      minorTickCount,
-                       int      majorTickCount,
-                       int      minorTickLength,
-                       int      majorTickLength,
-                       QColor   dialColor,
-                       QColor   minorTickColor,
-                       QColor   majorTickColor,
-                       QColor   labelColor,
-                       QColor   indicatorColor,
+DialWidget::DialWidget(QString  title,
+                       QString  units,
+                       int      side_length,
+                       int      min_value,
+                       int      max_value,
+                       int      minor_tick_count,
+                       int      major_tick_count,
+                       int      minor_tick_length,
+                       int      major_tick_length,
+                       QColor   dial_color,
+                       QColor   minor_tick_color,
+                       QColor   major_tick_color,
+                       QColor   label_color,
+                       QColor   indicator_color,
                        QWidget *parent) :
   QWidget(parent),
-  m_SIDE_LENGTH(sideLength),
-  m_MIN_VALUE(minValue),
-  m_MAX_VALUE(maxValue),
-  m_MINOR_TICK_COUNT(minorTickCount),
-  m_MAJOR_TICK_COUNT(majorTickCount),
-  m_MINOR_TICK_LENGTH(minorTickLength),
-  m_MAJOR_TICK_LENGTH(majorTickLength),
-  m_DIAL_COLOR(dialColor),
-  m_MINOR_TICK_COLOR(minorTickColor),
-  m_MAJOR_TICK_COLOR(majorTickColor),
-  m_LABEL_COLOR(labelColor),
-  m_INDICATOR_COLOR(indicatorColor)
+  m_TITLE(title),
+  m_UNITS(units),
+  m_SIDE_LENGTH(side_length),
+  m_MIN_VALUE(min_value),
+  m_MAX_VALUE(max_value),
+  m_MINOR_TICK_COUNT(minor_tick_count),
+  m_MAJOR_TICK_COUNT(major_tick_count),
+  m_MINOR_TICK_LENGTH(minor_tick_length),
+  m_MAJOR_TICK_LENGTH(major_tick_length),
+  m_DIAL_COLOR(dial_color),
+  m_MINOR_TICK_COLOR(minor_tick_color),
+  m_MAJOR_TICK_COLOR(major_tick_color),
+  m_LABEL_COLOR(label_color),
+  m_INDICATOR_COLOR(indicator_color)
 {
   setFixedSize(m_SIDE_LENGTH, m_SIDE_LENGTH);
   m_value = m_MIN_VALUE;
@@ -66,12 +73,12 @@ void DialWidget::setValue(double value)
   }
 }
 
-int DialWidget::minValue()
+int DialWidget::min_value()
 {
   return m_MIN_VALUE;
 }
 
-int DialWidget::maxValue()
+int DialWidget::max_value()
 {
   return m_MAX_VALUE;
 }
@@ -87,7 +94,8 @@ void DialWidget::paintEvent(QPaintEvent *)
 
   drawFace(painter);
   drawTickMarks(painter);
-  drawTextLabels(painter);
+  drawTitleAndUnitLabels(painter);
+  drawValueLabels(painter);
   drawIndicator(painter);
 
   painter->end();
@@ -138,10 +146,35 @@ void DialWidget::drawTickMarks(QPainter *painter)
   painter->restore();
 }
 
-void DialWidget::drawTextLabels(QPainter *painter)
+void DialWidget::drawTitleAndUnitLabels(QPainter *painter)
 {
-  static const int INCREMENT = (m_MAX_VALUE - m_MIN_VALUE) / m_MAJOR_TICK_COUNT;
-  static const int FONT_SIZE = 10;
+  QFont font = QFont("Helvetica", FONT_SIZE);
+  QFontMetrics fontMetrics(font);
+
+  painter->setFont(font);
+  painter->setPen(QPen(m_LABEL_COLOR, 1));
+
+  double x = 0;
+  double y = 0;
+
+  if (!m_TITLE.isEmpty())
+  {
+    x = -fontMetrics.width(m_TITLE) / 2;
+    y = -25;
+    painter->drawText(x, y, m_TITLE);
+  }
+
+  if (!m_UNITS.isEmpty())
+  {
+    x = -fontMetrics.width(m_UNITS) / 2;
+    y = 25;
+    painter->drawText(x, y, m_UNITS);
+  }
+}
+
+void DialWidget::drawValueLabels(QPainter *painter)
+{
+  const int INCREMENT = (m_MAX_VALUE - m_MIN_VALUE) / m_MAJOR_TICK_COUNT;
 
   QFont font = QFont("Helvetica", FONT_SIZE);
   QFontMetrics fontMetrics(font);

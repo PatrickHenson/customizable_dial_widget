@@ -23,6 +23,8 @@ const int CORNER_RADIUS = 10;
 
 SquareDial::SquareDial() :
   DialWidget(
+    QString(),
+    QString(),
     SIDE_LENGTH,
     MIN_VALUE,
     MAX_VALUE,
@@ -48,7 +50,7 @@ void SquareDial::paintEvent(QPaintEvent *)
 
   drawFace(painter);
   drawTickMarks(painter);
-  drawTextLabels(painter);
+  drawValueLabels(painter);
   drawIndicator(painter);
 
   painter->end();

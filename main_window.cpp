@@ -30,4 +30,20 @@ void MainWindow::createLayout()
 
   layout->addWidget(new DemoControl(new DialWidget));
   layout->addWidget(new DemoControl(new SquareDial));
+
+  DialWidget *customValue = new DialWidget("Pressure",
+                                           "PSI",
+                                           200,
+                                           0,
+                                           300,
+                                           50,
+                                           10,
+                                           2,
+                                           8,
+                                           Qt::blue,
+                                           Qt::white,
+                                           Qt::white,
+                                           Qt::white,
+                                           Qt::black);
+  layout->addWidget(new DemoControl(customValue));
 }

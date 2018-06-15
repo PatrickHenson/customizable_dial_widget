@@ -30,7 +30,7 @@ void DemoControl::createLayout()
   layout->addWidget(m_dial);
 
   QDoubleSpinBox *dialInput = new QDoubleSpinBox();
-  dialInput->setRange(m_dial->minValue(), m_dial->maxValue());
+  dialInput->setRange(m_dial->min_value(), m_dial->max_value());
   dialInput->setSingleStep(STEP_SIZE);
   layout->addWidget(dialInput);
 
