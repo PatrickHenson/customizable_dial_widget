@@ -9,18 +9,18 @@ The DialWidget class contains the core functionality and uses the following para
 Parameters:
 
 ```
-int sideLength         // The dial is centered inside a QWidget with equilateral side lengths.
-int minValue           // Minimum value displayed on the dial.
-int maxValue           // Maximum value displayed on the dial.
-int minorTickCount     // Number of short tick marks rendered.
-int majorTickCount     // Number of long tick marks rendered.
-int minorTickLength    // Length of the short tick marks in pixels.
-int majorTickLength    // Length of the long tick marks in pixels.
-QColor dialColor       // The color of the dial's face.
-QColor minorTickColor  // Color of minor tick marks.
-QColor majorTickColor  // Color of major tick marks.
-QColor labelColor      // Color of the font used for the labels.
-QColor indicatorColor  // Color of the indicator needle.
+int side_length         // The dial is centered inside a QWidget with equilateral side lengths.
+int min_value           // Minimum value displayed on the dial.
+int max_value           // Maximum value displayed on the dial.
+int minor_tick_count     // Number of short tick marks rendered.
+int major_tick_count     // Number of long tick marks rendered.
+int minor_tick_length    // Length of the short tick marks in pixels.
+int major_tick_length    // Length of the long tick marks in pixels.
+QColor dial_color       // The color of the dial's face.
+QColor minor_tick_color  // Color of minor tick marks.
+QColor major_tick_color  // Color of major tick marks.
+QColor label_color      // Color of the font used for the labels.
+QColor indicator_color  // Color of the indicator needle.
 ```
 
 In addition, I have provided several classes demonstrating how the DialWidget can be further customized.  
