@@ -29,11 +29,11 @@ void DemoControl::createLayout()
 
   layout->addWidget(m_dial);
 
-  QDoubleSpinBox *dialInput = new QDoubleSpinBox();
-  dialInput->setRange(m_dial->min_value(), m_dial->max_value());
-  dialInput->setSingleStep(STEP_SIZE);
-  layout->addWidget(dialInput);
+  QDoubleSpinBox *dial_input = new QDoubleSpinBox();
+  dial_input->setRange(m_dial->min_value(), m_dial->max_value());
+  dial_input->setSingleStep(STEP_SIZE);
+  layout->addWidget(dial_input);
 
-  QObject::connect(dialInput, SIGNAL(valueChanged(double)), m_dial,
+  QObject::connect(dial_input, SIGNAL(valueChanged(double)), m_dial,
                    SLOT(setValue(double)), Qt::UniqueConnection);
 }

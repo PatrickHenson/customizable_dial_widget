@@ -73,12 +73,12 @@ void DialWidget::setValue(double value)
   }
 }
 
-int DialWidget::min_value()
+int DialWidget::minValue()
 {
   return m_MIN_VALUE;
 }
 
-int DialWidget::max_value()
+int DialWidget::maxValue()
 {
   return m_MAX_VALUE;
 }

@@ -33,10 +33,10 @@ public:
              QWidget *parent = 0);
 
   // Return the minimum value displayed on the dial.
-  int min_value();
+  int minValue();
 
   // Return the maximum value displayed on the dial.
-  int max_value();
+  int maxValue();
 
 public slots:
 
