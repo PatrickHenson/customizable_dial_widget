@@ -15,6 +15,11 @@ public:
   // Default constructor.  Reference the .cpp for predefined values.
   explicit DialWidget(QWidget *parent = 0);
 
+  // Simple constructor to change the size of the dial by applying a scale
+  // factor to the default values of the demonstration dial.
+  explicit DialWidget(int      side_length,
+                      QWidget *parent = 0);
+
   // Constructor that allows for custom configuration of the DialWidget.
   DialWidget(QString  title,
              QString  units,
@@ -37,6 +42,9 @@ public:
 
   // Return the maximum value displayed on the dial.
   int maxValue();
+
+  // Return the current value displayed on the dial.
+  int currentValue();
 
 public slots:
 

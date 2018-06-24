@@ -14,7 +14,28 @@ DialWidget::DialWidget(QWidget *parent) :
   m_UNITS(QString()),
   m_SIDE_LENGTH(200.0),
   m_MIN_VALUE(0),
-  m_MAX_VALUE(100),
+  m_MAX_VALUE(10),
+  m_MINOR_TICK_COUNT(50),
+  m_MAJOR_TICK_COUNT(10),
+  m_MINOR_TICK_LENGTH(2),
+  m_MAJOR_TICK_LENGTH(8),
+  m_DIAL_COLOR(Qt::black),
+  m_MINOR_TICK_COLOR(Qt::white),
+  m_MAJOR_TICK_COLOR(Qt::white),
+  m_LABEL_COLOR(Qt::white),
+  m_INDICATOR_COLOR(Qt::red)
+{
+  setFixedSize(m_SIDE_LENGTH, m_SIDE_LENGTH);
+  m_value = m_MIN_VALUE;
+}
+
+DialWidget::DialWidget(int side_length, QWidget *parent) :
+  QWidget(parent),
+  m_TITLE(QString()),
+  m_UNITS(QString()),
+  m_SIDE_LENGTH(side_length),
+  m_MIN_VALUE(0),
+  m_MAX_VALUE(10),
   m_MINOR_TICK_COUNT(50),
   m_MAJOR_TICK_COUNT(10),
   m_MINOR_TICK_LENGTH(2),
@@ -81,6 +102,11 @@ int DialWidget::minValue()
 int DialWidget::maxValue()
 {
   return m_MAX_VALUE;
+}
+
+int DialWidget::currentValue()
+{
+  return m_value;
 }
 
 void DialWidget::paintEvent(QPaintEvent *)
@@ -217,7 +243,7 @@ void DialWidget::drawValueLabels(QPainter *painter)
 
 void DialWidget::drawIndicator(QPainter *painter)
 {
-  static const int INDICATOR_LENGTH = m_SIDE_LENGTH / 2 - 10;
+  const int INDICATOR_LENGTH = m_SIDE_LENGTH / 2 - 10;
 
   painter->save();
 
@@ -237,11 +263,11 @@ void DialWidget::drawIndicator(QPainter *painter)
 
 void DialWidget::calculatePointOnCircumference(int count, QPointF& position)
 {
-  static const int INTERIOR_PADDING = 25;
-  static const int INTERIOR_RADIUS  =  (m_SIDE_LENGTH - INTERIOR_PADDING) / 2;
+  const int INTERIOR_PADDING = 25;
+  const int INTERIOR_RADIUS  =  (m_SIDE_LENGTH - INTERIOR_PADDING) / 2;
 
-  static const double ANGLE  = 2 * M_PI / m_MAJOR_TICK_COUNT;
-  static const double OFFSET = M_PI / 2;
+  const double ANGLE  = 2 * M_PI / m_MAJOR_TICK_COUNT;
+  const double OFFSET = M_PI / 2;
 
   position.setX(INTERIOR_RADIUS * cos(ANGLE * count - OFFSET));
   position.setY(INTERIOR_RADIUS * sin(ANGLE * count - OFFSET));

@@ -4,7 +4,7 @@
 #include "dial_widget.h"
 
 // Create a controller connecting the DialWidget to a QDoubleSpinbox, allowing
-// users to demo adjusting the value of the dial.
+// the user to adjust the value displayed on the dial in the demo application.
 class DemoControl : public QWidget {
   Q_OBJECT
 

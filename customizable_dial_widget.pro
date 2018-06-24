@@ -21,10 +21,13 @@ SOURCES += \
   main_window.cpp \
   dial_widget.cpp \
     square_dial.cpp \
-    demo_control.cpp
+    demo_control.cpp \
+    custom_indicator_dial.cpp
 
 HEADERS += \
   main_window.h \
   dial_widget.h \
     square_dial.h \
-    demo_control.h
+    demo_control.h \
+    polygon_indicators.h \
+    custom_indicator_dial.h

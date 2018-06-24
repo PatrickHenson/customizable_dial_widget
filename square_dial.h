@@ -7,7 +7,8 @@
 class SquareDial : public DialWidget {
 public:
 
-  SquareDial();
+  explicit SquareDial(int      side_length,
+                      QWidget *parent = 0);
 
 protected:
 
@@ -17,4 +18,6 @@ protected:
 
   // Draw the face of the dial.
   void drawFace(QPainter *painter);
+
+  const int m_SIDE_LENGTH;
 };
